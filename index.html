@@ -184,27 +184,68 @@
     .song:last-child {
       border-bottom: none;
     }
+/* closed by default */
+.spotify{
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: 0.25s ease;
+}
 
-    .music-icon {
-      position: absolute;
-      right: 56px;
-      bottom: 46px;
-      width: 84px;
-      height: 84px;
-      border-radius: 18px;
-      background: rgba(255,255,255,0.22);
-      backdrop-filter: blur(18px);
-      border: 1px solid rgba(255,255,255,0.18);
-      display: grid;
-      place-items: center;
-      z-index: 4;
-    }
+/* open state */
+.spotify.open{
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
 
-    .music-icon img {
-      width: 52px;
-      height: 52px;
-      object-fit: contain;
-    }
+.spotify-top{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.spotify-actions{
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.player-btn{
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(0,0,0,0.12);
+  color: white;
+  cursor: pointer;
+}
+    .music-icon{
+  position: absolute;
+  right: 56px;
+  bottom: 46px;
+
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+
+  background: rgba(255,255,255,0.22);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,0.18);
+
+  display: grid;
+  place-items: center;
+  z-index: 4;
+  cursor: pointer;
+}
+
+.music-icon img{
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
 
     /* Notification */
     .notification {
@@ -393,19 +434,31 @@
       take your time exploring.
     </div>
 
-    <div class="music-icon">
-      <img src="./music.png" alt="music">
-    </div>
+    <div class="music-icon" id="musicToggle" title="Music">
+  <img src="./music.png" alt="music">
+</div>
 
-    <div class="spotify">
-      <h3>songs that remind me of you</h3>
-      <div class="song">Promise — Jimin</div>
-      <div class="song">Sweet Night — V</div>
-      <div class="song">Mikrokosmos — BTS</div>
-      <div class="song">Falling Behind — Laufey</div>
-      <div class="song">Line Without a Hook — Ricky Montgomery</div>
-    </div>
+<div class="spotify" id="spotifyWidget">
+  <div class="spotify-top">
+    <h3 style="margin:0;">now playing</h3>
 
+    <div class="spotify-actions">
+      <button class="player-btn" id="prevBtn" aria-label="previous">⏮</button>
+      <button class="player-btn" id="playPauseBtn" aria-label="play/pause">▶</button>
+      <button class="player-btn" id="nextBtn" aria-label="next">⏭</button>
+      <button class="player-btn" id="closeMusicBtn" aria-label="close">✕</button>
+    </div>
+  </div>
+
+  <div class="song" id="trackTitle" style="border-bottom:none; padding-bottom:0;">
+    (no track loaded)
+  </div>
+  <div class="song" id="trackArtist" style="opacity:0.7; border-bottom:none; padding-top:6px;">
+    —
+  </div>
+</div>
+
+<audio id="audioPlayer"></audio>
     <div class="notification" id="notification">
       <div class="notification-title">system notification</div>
       <div class="notification-message" id="notificationMessage"></div>
@@ -427,6 +480,96 @@
   </div>
 
   <script>
+    const musicToggle = document.getElementById('musicToggle');
+const spotifyWidget = document.getElementById('spotifyWidget');
+const closeMusicBtn = document.getElementById('closeMusicBtn');
+
+const audioPlayer = document.getElementById('audioPlayer');
+const playPauseBtn = document.getElementById('playPauseBtn');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+
+const trackTitle = document.getElementById('trackTitle');
+const trackArtist = document.getElementById('trackArtist');
+
+/* CHANGE THESE LATER */
+const playlist = [
+  { title: "Song 1", artist: "Artist", src: "./song1.mp3" },
+  { title: "Song 2", artist: "Artist", src: "./song2.mp3" },
+  { title: "Song 3", artist: "Artist", src: "./song3.mp3" },
+  { title: "Song 4", artist: "Artist", src: "./song4.mp3" },
+  { title: "Song 5", artist: "Artist", src: "./song5.mp3" }
+];
+
+let currentTrack = 0;
+
+function loadTrack(index){
+  currentTrack = (index + playlist.length) % playlist.length;
+
+  const t = playlist[currentTrack];
+  audioPlayer.src = t.src;
+
+  trackTitle.textContent = t.title;
+  trackArtist.textContent = t.artist;
+
+  playPauseBtn.textContent = '▶';
+}
+
+async function playCurrent(){
+  try {
+    await audioPlayer.play();
+    playPauseBtn.textContent = '⏸';
+  } catch {
+    // if play is blocked, user can click again after interacting
+  }
+}
+
+function pauseCurrent(){
+  audioPlayer.pause();
+  playPauseBtn.textContent = '▶';
+}
+
+function nextTrack(){
+  loadTrack(currentTrack + 1);
+  playCurrent();
+}
+
+function prevTrack(){
+  loadTrack(currentTrack - 1);
+  playCurrent();
+}
+
+/* open/close widget */
+musicToggle.addEventListener('click', () => {
+  spotifyWidget.classList.toggle('open');
+
+  // load first track when user opens it first time
+  if (!audioPlayer.src) loadTrack(0);
+});
+
+closeMusicBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  spotifyWidget.classList.remove('open');
+});
+
+playPauseBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+
+  if (!audioPlayer.src) loadTrack(0);
+
+  if (audioPlayer.paused) playCurrent();
+  else pauseCurrent();
+});
+
+nextBtn.addEventListener('click', (e) => { e.stopPropagation(); nextTrack(); });
+prevBtn.addEventListener('click', (e) => { e.stopPropagation(); prevTrack(); });
+
+/* when a song ends -> auto next */
+audioPlayer.addEventListener('ended', nextTrack);
+
+/* keep UI in sync */
+audioPlayer.addEventListener('pause', () => playPauseBtn.textContent = '▶');
+audioPlayer.addEventListener('play', () => playPauseBtn.textContent = '⏸');
     function updateDesktopTime() {
       const now = new Date();
       const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
