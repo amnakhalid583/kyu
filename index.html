@@ -66,16 +66,11 @@
     }
 
     /* ICONS ROW (top-center) */
-    .icons {
-      position: absolute;
-      top: 54px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: row;
-      gap: 16px;
-      z-index: 5;
-    }
+    .icons{
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+}
 
     /* ICONS (clickable + names back) */
     .icon{
@@ -120,6 +115,26 @@
       text-overflow: ellipsis;
       white-space: nowrap;
     }
+    .fake-icon{
+  position: absolute;
+  width: 70px;
+  text-align: center;
+  opacity: 0.82;
+}
+
+.fake-icon img{
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 10px rgba(0,0,0,0.25));
+}
+
+.fake-icon p{
+  margin-top: 6px;
+  font-size: 10px;
+  line-height: 1.2;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.55);
+}
 
     /* Sticky note (left) */
     .sticky-note {
@@ -403,41 +418,81 @@
 
     <!-- Icons (replace image paths with your cute ones in ./icons/) -->
     <div class="icons">
-      <a class="icon" href="./sightings.html">
-        <img src="./sightings.png">
+<a class="icon" href="./sightings.html" style="position:absolute; top:70px; left:40px;">
+  <img src="./sightings.png">
         <p>tiny sightings</p>
       </a>
 
-      <a class="icon" href="./survived.html">
-         <img src="./survived.png">
+      <a class="icon" href="./survived.html" style="position:absolute; top:170px; left:40px;">
+         <img src="./survived.png"> 
         <p>proof survived</p>
       </a>
 
-      <a class="icon" href="./memories-2019.html">
+      <a class="icon" href="./memories-2019.html" style="position:absolute; top:270px; left:40px;">
          <img src="./2019.png">
         <p>2019 memories</p>
       </a>
 
-      <a class="icon" href="./small-us.html">
+      <a class="icon" href="./small-us.html" style="position absolute; top:370px; left:40px;">
          <img src="./small-us.png">
         <p>small us</p>
       </a>
 
-      <a class="icon" href="./future.html">
+      <a class="icon" href="./future.html" style="position absolute; top:70px; left:140px;">
          <img src="./future.png">
         <p>future shots</p>
       </a>
 
-      <a class="icon" href="#" onclick="openSecret(); return false;">
+      <a class="icon" href="#" onclick="openSecret(); return false;" style="position absolute; top:170px; left:140px;">
           <img src="./do-not-open.png">
         <p>DO NOT OPEN</p>
       </a>
 
-      <a class="icon" href="#" onclick="openCorrupted(); return false;">
+      <a class="icon" href="#" onclick="openCorrupted(); return false;" style="position absolute; top:270px; left:140px;">
          <img src="./corrupted.png">
         <p>corrupted_file...</p>
       </a>
     </div>
+    <div class="fake-icon" style="top:90px; left:420px;">
+  <img src="./file.png">
+  <p>bro what even is this.png</p>
+</div>
+    <div class="fake-icon" style="top:220px; left:520px;">
+  <img src="./video.png">
+  <p>AAAAAAAA.mp4</p>
+</div>
+    <div class="fake-icon" style="top:420px; left:430px;">
+  <img src="./file.png">
+  <p>not suspicious at all</p>
+</div>
+    <div class="fake-icon" style="top:130px; left:780px;">
+  <img src="./txt.png">
+  <p>DO NOT DELETE.txt</p>
+</div>
+    <div class="fake-icon" style="top:540px; left:260px;">
+  <img src="./png.png">
+  <p>Screenshot 2044</p>
+</div>
+    <div class="fake-icon" style="top:500px; left:720px;">
+  <img src="./folder.png">
+  <p>downloaded memes</p>
+</div>
+    <div class="fake-icon" style="top:330px; left:900px;">
+  <img src="./txt.png">
+  <p>things to overthink later</p>
+</div>
+    <div class="fake-icon" style="top:580px; left:1040px;">
+  <img src="./zip.png">
+  <p>totally_normal.zip</p>
+</div>
+    <div class="fake-icon" style="top:120px; left:980px;">
+  <img src="./png.png">
+  <p>why_is_this_saved.png</p>
+</div>
+    <div class="fake-icon" style="top:470px; left:1120px;">
+  <img src="./txt.png">
+  <p>grocery list???</p>
+</div>
 
     <div class="sticky-note">
       take your time exploring.
