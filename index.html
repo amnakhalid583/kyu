@@ -422,11 +422,10 @@
         <p>future shots</p>
       </a>
 
-      <a class="icon" href="#" onclick="openSecret(); return false;" style="position:absolute; top:170px; left:140px;">
-          <img src="./do-not-open.png">
-        <p>DO NOT OPEN</p>
-      </a>
-
+<a class="icon" href="./do-not-open.html" style="position:absolute; top:170px; left:140px;">
+  <img src="./do-not-open.png">
+  <p>DO NOT OPEN</p>
+</a>
       <a class="icon" href="#" onclick="openCorrupted(); return false;" style="position:absolute; top:270px; left:140px;">
          <img src="./corrupted.png">
         <p>corrupted_file...</p>
@@ -506,10 +505,6 @@
     take your time exploring.
   </div>
 </div>
-    <div class="fake-window" id="window">
-      <div class="window-top">message.txt</div>
-      <div class="window-content" id="windowContent"></div>
-    </div>
 
     <div class="shutdown-screen" id="shutdownScreen">
       <div class="shutdown-copy">
@@ -629,23 +624,6 @@ window.addEventListener('load', () => {
   }, 5000);
 });
     
-   function openSecret() {
-      const password = prompt('enter password');
-
-      if (password && password.toLowerCase() === 'godzilla') {
-        document.getElementById('window').style.display = 'flex';
-        document.getElementById('windowContent').innerHTML = `
-          i'm really glad you stayed.<br><br>
-          thank you for existing this long.<br><br>
-          and thank you for letting me exist beside you.<br><br>
-          you make life softer.
-        `;
-      }
-    }
-
-    let explored = false;
-    setTimeout(() => { explored = true; }, 60000);
-
     // LAST ICON: opens full black screen (fade-in)
     function openCorrupted() {
       if (!explored) {
