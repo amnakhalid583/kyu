@@ -152,7 +152,7 @@
       border: 1px solid rgba(255,255,255,0.18);
       border-radius: 18px;
       padding: 16px;
-      z-index: 4;
+      z-index: 20;
     }
 
     .spotify h3 {
@@ -224,7 +224,7 @@
 
   display: grid;
   place-items: center;
-  z-index: 4;
+  z-index: 20;
   cursor: pointer;
 }
 
@@ -265,6 +265,19 @@
 
 .notification.show{
   opacity: 1;
+}
+    .notification-title{
+  font-size: 14px;      /* bigger */
+  font-weight: 500;
+  opacity: 0.9;
+  margin-bottom: 6px;
+}
+
+.notification-message{
+  font-size: 12px;      /* smaller */
+  font-weight: 400;
+  opacity: 0.75;
+  line-height: 1.35;
 }
     /* Fake window (kept for DO NOT OPEN password msg) */
     .fake-window {
@@ -611,9 +624,11 @@ window.addEventListener('load', () => {
   const popup = document.getElementById('notification');
   popup.classList.add('show');
 
-  // optional: auto-hide after 5s
-  // setTimeout(() => popup.classList.remove('show'), 5000);
+  setTimeout(() => {
+    popup.classList.remove('show');
+  }, 5000);
 });
+    
    function openSecret() {
       const password = prompt('enter password');
 
