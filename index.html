@@ -322,10 +322,10 @@
 
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
 
-      padding: 120px 0 70px;
+      padding: 0;
 
       opacity: 0;
       visibility: hidden;
@@ -356,16 +356,11 @@
       opacity: 0.6;
     }
 
-    .shutdown-button {
-      padding: 14px 24px;
-      border-radius: 16px;
-      border: none;
-      background: rgba(255,255,255,0.08);
-      color: white;
-      cursor: pointer;
-      font-size: 14px;
-      transition: opacity 1.2s ease;
-    }
+    .shutdown-button{
+  position: absolute;
+  right: 40px;
+  bottom: 34px;
+}
 
     /* When user clicks shutdown -> fade content away (ends on plain black) */
     .shutdown-screen.poweroff .shutdown-copy,
