@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>do not open</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,sans-serif;}
+    body{height:100vh;overflow:hidden;background:black;color:white;}
+
+    /* blurred wallpaper background */
+    .bg{
+      position:fixed;
+      inset:0;
+      background:url("./wallpaper.jpg") center/cover no-repeat;
+      transform: scale(1.08);
+      filter: blur(14px);
+    }
+    .dim{
+      position:fixed;
+      inset:0;
+      background: rgba(0,0,0,0.35);
+    }
+
+    /* glass card */
+    .card{
+      position:fixed;
+      left:50%;
+      top:50%;
+      transform:translate(-50%,-50%);
+      width:min(380px, 92vw);
+      border-radius: 22px;
+
+      background: rgba(20, 20, 30, 0.28);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+
+      border: 1px solid rgba(255,255,255,0.14);
+      box-shadow: 0 25px 60px rgba(0,0,0,0.35);
+
+      padding: 34px 30px 26px;
+    }
+
+    .title{
+      font-size: 22px;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+      margin-bottom: 6px;
+      text-shadow: 0 4px 18px rgba(0,0,0,0.35);
+      text-align: center;
+    }
+
+    .sub{
+      text-align:center;
+      font-size: 12px;
+      opacity: 0.65;
+      margin-bottom: 20px;
+    }
+
+    .input{
+      width:100%;
+      height: 46px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(0,0,0,0.12);
+      color: white;
+      padding: 0 16px;
+      font-size: 15px;
+      outline: none;
+      transition: 0.2s ease;
+    }
+    .input:focus{
+      border-color: rgba(255,255,255,0.28);
+      background: rgba(0,0,0,0.18);
+    }
+    .input::placeholder{
+      color: rgba(255,255,255,0.45);
+    }
+
+    .row{
+      display:flex;
+      gap:10px;
+      margin-top: 14px;
+    }
+
+    .btn{
+      height: 40px;
+      padding: 0 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.06);
+      color: white;
+      cursor: pointer;
+      font-size: 13px;
+      opacity: 0.9;
+    }
+    .btn:hover{ opacity: 1; }
+
+    .btn.primary{
+      flex:1;
+      background: rgba(255,255,255,0.10);
+    }
+
+    .error{
+      margin-top: 10px;
+      min-height: 16px;
+      font-size: 12px;
+      color: #ffb7b7;
+      opacity: 0.95;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="dim"></div>
+
+  <div class="card">
+    <div class="title">do not open</div>
+    <div class="sub">enter password to proceed.</div>
+
+    <input class="input" id="pw" type="password" placeholder="password" />
+
+    <div class="row">
+      <button class="btn" onclick="location.href='./desktop.html'">back</button>
+      <button class="btn primary" id="enterBtn">enter</button>
+    </div>
+
+    <div class="error" id="err"></div>
+  </div>
+
+  <script>
+    const pw = document.getElementById('pw');
+    const err = document.getElementById('err');
+    const enterBtn = document.getElementById('enterBtn');
+
+    function submit(){
+      const val = (pw.value || '').toLowerCase().trim();
+      if(val === 'godzilla'){
+        // We'll create/change this page later:
+        location.href = './next.html';
+      } else {
+        err.textContent = 'wrong password.';
+      }
+    }
+
+    enterBtn.addEventListener('click', submit);
+    pw.addEventListener('keydown', (e) => { if(e.key === 'Enter') submit(); });
+  </script>
+</body>
+</html>
