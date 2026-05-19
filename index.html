@@ -140,38 +140,6 @@
   text-shadow: 0 2px 10px rgba(0,0,0,0.55);
 }
 
-    /* Sticky note (left) */
-    .sticky-note {
-      position: absolute;
-      left: 70px;
-      top: 190px;
-      width: 260px;
-      min-height: 160px;
-
-      background: #ffe58a;
-      color: #333;
-      padding: 22px;
-      border-radius: 12px;
-      transform: rotate(-2deg);
-
-      box-shadow: 0 18px 34px rgba(0,0,0,0.28);
-      font-size: 16px;
-      line-height: 1.6;
-      z-index: 3;
-    }
-
-    .sticky-note::before {
-      content: "";
-      position: absolute;
-      top: -10px;
-      left: 20px;
-      width: 20px;
-      height: 20px;
-      background: #f4d9b4;
-      border-radius: 50%;
-      box-shadow: 0 8px 14px rgba(0,0,0,0.25);
-    }
-
     /* Music widget + big icon */
     .spotify {
       position: absolute;
@@ -276,34 +244,28 @@
 }
 
     /* Notification */
-    .notification {
-      position: absolute;
-      top: 56px;
-      right: -400px;
-      width: 310px;
-      backdrop-filter: blur(18px);
-      background: rgba(30,30,30,0.45);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 20px;
-      padding: 18px;
-      z-index: 999;
-      transition: 0.6s ease;
-    }
+.notification{
+  position: absolute;
+  top: 54px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 340px;
 
-    .notification.show {
-      right: 24px;
-    }
+  backdrop-filter: blur(18px);
+  background: rgba(30,30,30,0.45);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  padding: 18px;
+  z-index: 999;
 
-    .notification-title {
-      font-size: 13px;
-      opacity: 0.65;
-      margin-bottom: 6px;
-    }
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.35s ease;
+}
 
-    .notification-message {
-      font-size: 14px;
-    }
-
+.notification.show{
+  opacity: 1;
+}
     /* Fake window (kept for DO NOT OPEN password msg) */
     .fake-window {
       position: absolute;
@@ -498,10 +460,6 @@
   <p>grocery list???</p>
 </div>
 
-    <div class="sticky-note">
-      take your time exploring.
-    </div>
-
 <div class="music-icon" id="musicToggle" title="Music">
   <div class="music-img">
     <img src="./music.png" alt="music">
@@ -529,11 +487,12 @@
 </div>
 
 <audio id="audioPlayer"></audio>
-    <div class="notification" id="notification">
-      <div class="notification-title">system notification</div>
-      <div class="notification-message" id="notificationMessage"></div>
-    </div>
-
+<div class="notification" id="notification">
+  <div class="notification-title">system notification</div>
+  <div class="notification-message" id="notificationMessage">
+    take your time exploring.
+  </div>
+</div>
     <div class="fake-window" id="window">
       <div class="window-top">message.txt</div>
       <div class="window-content" id="windowContent"></div>
@@ -648,26 +607,14 @@ audioPlayer.addEventListener('play', () => playPauseBtn.textContent = '⏸');
     updateDesktopTime();
     setInterval(updateDesktopTime, 1000);
 
-    const notifications = [
-      'system reminder: drink water menace',
-      '1 new memory recovered',
-      'comfort.exe running',
-      'you have been cared about today and everyday'
-    ];
+window.addEventListener('load', () => {
+  const popup = document.getElementById('notification');
+  popup.classList.add('show');
 
-    function showNotification() {
-      const popup = document.getElementById('notification');
-      const text = document.getElementById('notificationMessage');
-      const random = notifications[Math.floor(Math.random() * notifications.length)];
-
-      text.textContent = random;
-      popup.classList.add('show');
-
-      setTimeout(() => popup.classList.remove('show'), 4200);
-    }
-    setInterval(showNotification, 18000);
-
-    function openSecret() {
+  // optional: auto-hide after 5s
+  // setTimeout(() => popup.classList.remove('show'), 5000);
+});
+   function openSecret() {
       const password = prompt('enter password');
 
       if (password && password.toLowerCase() === 'godzilla') {
